@@ -3,7 +3,7 @@ import os
 
 from ..robot import Robot
 
-class ConfigTestCase(TestCase):
+class RobotTestCase(TestCase):
     def setUp(self):
         pass
 
@@ -44,16 +44,16 @@ class ConfigTestCase(TestCase):
         self.assertEqual(robot.left_motor_speed, 200)
 
         robot.set_motor_speed(500)
-        self.assertEqual(robot.right_motor_speed, 500)
-        self.assertEqual(robot.left_motor_speed, 200)
+        self.assertEqual(robot.right_motor_speed, 200)
+        self.assertEqual(robot.left_motor_speed, 500)
 
         robot.set_motor_speed(right_motor_speed=1000)
-        self.assertEqual(robot.right_motor_speed, 500)
-        self.assertEqual(robot.left_motor_speed, 1000)
+        self.assertEqual(robot.right_motor_speed, 1000)
+        self.assertEqual(robot.left_motor_speed, 500)
 
         robot.set_motor_speed(left_motor_speed=-1000)
-        self.assertEqual(robot.right_motor_speed, -1000)
-        self.assertEqual(robot.left_motor_speed, 1000)
+        self.assertEqual(robot.right_motor_speed, 1000)
+        self.assertEqual(robot.left_motor_speed, -1000)
 
         robot.set_motor_speed(0, 0)
         self.assertEqual(robot.right_motor_speed, 0)
