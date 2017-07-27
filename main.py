@@ -13,5 +13,3 @@ if __name__ == '__main__':
     robot = Robot()
 
     # start main loop
-
-    print('Main')
