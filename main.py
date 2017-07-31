@@ -7,6 +7,9 @@ import time
 import os
 
 if __name__ == '__main__':
+    r = requests.get('https://raw.githubusercontent.com/Grungnie/microsoftbotframework/master/README.md')
+    print(r.text)
+
     robot = Robot()
 
     # start main loop
