@@ -16,5 +16,6 @@ if __name__ == '__main__':
     while True:
         with open('../test.txt', 'w+') as file:
             file.write(str(counter))
+        print('writing file')
         time.sleep(10)
         counter += 1
