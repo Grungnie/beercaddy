@@ -3,6 +3,8 @@ __author__ = 'Matthew'
 import requests
 from robot import Robot
 import time
+import logging
+logging.basicConfig(filename='beercaddy.log', level=logging.DEBUG)
 
 
 if __name__ == '__main__':
@@ -16,6 +18,6 @@ if __name__ == '__main__':
     while True:
         with open('../test.txt', 'w+') as file:
             file.write(str(counter))
-        print('writing file')
+        logging.debug(counter)
         time.sleep(10)
         counter += 1
