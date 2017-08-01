@@ -1,10 +1,9 @@
 __author__ = 'Matthew'
 
 import requests
-from python import Robot
-import subprocess
+from robot import Robot
 import time
-import os
+
 
 if __name__ == '__main__':
     r = requests.get('https://raw.githubusercontent.com/Grungnie/microsoftbotframework/master/README.md')

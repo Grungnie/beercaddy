@@ -1,7 +1,6 @@
 from unittest import TestCase
-import os
 
-from ..robot import Robot
+from robot import Robot
 
 class RobotTestCase(TestCase):
     def setUp(self):
