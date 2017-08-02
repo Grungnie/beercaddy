@@ -15,14 +15,14 @@ def read_serial_message():
 
     while recieving:
         serial_data = ser.read()
-        print(bytes(serial_data))
-        print(b'\xff')
+
         if bytes(serial_data) == b'\xff':
             break
         else:
-            recieved_data.append(serial_data.decode('ascii'))
+            recieved_data.append(serial_data)
 
-    logging.debug(''.join(recieved_data))
+    if recieved_data[0] == b'\x00':
+        logging.debug(''.join([x.decode('ascii') for x in recieved_data[1:]]))
 
 
 if __name__ == '__main__':

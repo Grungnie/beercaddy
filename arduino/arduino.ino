@@ -13,9 +13,10 @@ void setup() {
 
 // the loop routine runs over and over again forever:
 void loop() {
+  char command = char(0);
   char end_stop = char(255);
   String message = "Hello Matthew";
-  String send_message = String(message + end_stop);
+  String send_message = String(command + message + end_stop);
 
   int send_length = send_message.length()+1;
 
