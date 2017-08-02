@@ -16,7 +16,7 @@ def read_serial_message():
     while recieving:
         serial_data = ser.read()
 
-        if int(serial_data) == 255:
+        if bytes(serial_data) == 255:
             break
         else:
             recieved_data.append(serial_data)
