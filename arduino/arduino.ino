@@ -13,15 +13,20 @@ void setup() {
 
 
 void send_log(String message) {
-  //char command = char(0);
   char end_stop = char(255);
-  String send_message = String(message + end_stop);
-  String send_message_with_command = String(0x00 + send_message);
+  
+  String send_message = "";
+  send_message.concat(char(0));
+  send_message.concat(message);
+  send_message.concat(end_stop);
+  
+//  String send_message = String(message + end_stop);
+//  String send_message_with_command = String(0x00 + send_message);
 
-  int send_length = send_message_with_command.length()+1;
+  int send_length = send_message.length()+1;
 
   char charBuf[send_length];
-  send_message_with_command.toCharArray(charBuf, send_length);
+  send_message.toCharArray(charBuf, send_length);
   Serial.write(charBuf);
 }
 
