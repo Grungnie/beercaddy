@@ -13,6 +13,16 @@ void setup() {
 
 // the loop routine runs over and over again forever:
 void loop() {
-  Serial.write("Hello Matthew" + char(255));
+  char end_stop = char(255);
+  String message = "Hello Matthew";
+  String send_message = String(message + end_stop);
+
+  int send_length = send_message.length()+1;
+
+  char charBuf[send_length];
+  send_message.toCharArray(charBuf, send_length);
+  
+  Serial.write(charBuf);
   delay(1000);
 }
+
