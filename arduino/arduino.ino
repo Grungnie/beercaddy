@@ -13,10 +13,10 @@ void setup() {
 
 
 void send_log(String message) {
-  char command = char(0);
+  //char command = char(0);
   char end_stop = char(255);
   String send_message = String(message + end_stop);
-  String send_message_with_command = String(command + send_message);
+  String send_message_with_command = String(0x00 + send_message);
 
   int send_length = send_message_with_command.length()+1;
 
