@@ -14,7 +14,7 @@ if __name__ == '__main__':
 
     while True:
         try:
-            serial_data = ser.readline()
+            serial_data = ser.read()
             logging.debug(serial_data)
         except Exception as e:
             logging.warning(e)
