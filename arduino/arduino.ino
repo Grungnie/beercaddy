@@ -16,7 +16,7 @@ void send_log(String message) {
   char command = char(0);
   char end_stop = char(255);
   String send_message = String(message + end_stop);
-  send_message = String(command + message);
+  send_message = String(command + send_message);
 
   int send_length = send_message.length()+1;
 
