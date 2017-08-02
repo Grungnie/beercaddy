@@ -3,21 +3,14 @@ __author__ = 'Matthew'
 import requests
 from robot import Robot
 import time
+import serial
+
 import logging
 logging.basicConfig(filename='beercaddy.log', level=logging.DEBUG)
 
 
 if __name__ == '__main__':
-    r = requests.get('https://raw.githubusercontent.com/Grungnie/microsoftbotframework/master/README.md')
-    print(r.text)
-
-    robot = Robot()
-
-    # start main loop
-    counter = 0
+    ser = serial.Serial('/dev/ttyACM0', 9600)
     while True:
-        with open('../test.txt', 'w+') as file:
-            file.write(str(counter))
-        logging.debug(counter)
-        time.sleep(10)
-        counter += 1
+        logging.debug(ser.readline())
+        time.sleep(0.1)
