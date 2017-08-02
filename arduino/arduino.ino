@@ -11,19 +11,24 @@ void setup() {
   Serial.begin(9600);
 }
 
-// the loop routine runs over and over again forever:
-void loop() {
+
+void send_log(String message) {
   char command = char(0);
   char end_stop = char(255);
-  String message = "Hello Matthew";
-  String send_message = String(command + message + end_stop);
+  String send_message = String(message + end_stop);
+  send_message = String(command + message);
 
   int send_length = send_message.length()+1;
 
   char charBuf[send_length];
   send_message.toCharArray(charBuf, send_length);
-  
   Serial.write(charBuf);
+}
+
+
+// the loop routine runs over and over again forever:
+void loop() {
+  send_log("Hello Matthew");
   delay(1000);
 }
 
