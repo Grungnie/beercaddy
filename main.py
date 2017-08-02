@@ -29,6 +29,8 @@ def read_serial_message():
 
     if recieved_data[0] == b'\x00' and not error:
         logging.debug(''.join([x.decode('ascii') for x in recieved_data[1:]]))
+    else:
+        logging.debug('No command found - ' + ''.join([x.decode('ascii') for x in recieved_data[1:]]))
 
 
 if __name__ == '__main__':
