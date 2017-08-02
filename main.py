@@ -15,11 +15,12 @@ def read_serial_message():
 
     while recieving:
         serial_data = ser.read()
-
-        if bytes(serial_data) == 255:
+        print(bytes(serial_data))
+        print(b'\xff')
+        if bytes(serial_data) == b'\xff':
             break
         else:
-            recieved_data.append(serial_data)
+            recieved_data.append(serial_data.decode('ascii'))
 
     logging.debug(''.join(recieved_data))
 
@@ -34,4 +35,5 @@ if __name__ == '__main__':
 
 
     except Exception as e:
+        print(e)
         logging.warning(e)
