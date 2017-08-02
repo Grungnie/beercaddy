@@ -13,8 +13,6 @@ void setup() {
 
 // the loop routine runs over and over again forever:
 void loop() {
-  Serial.write("hello"); //send the string “hello” and return the length of the string.
-  delay(500);               // wait for a second
-  Serial.write("Matthew"); //send the string “hello” and return the length of the string.
-  delay(500);               // wait for a second
+  Serial.write("Hello Matthew" + char(255));
+  delay(1000);
 }

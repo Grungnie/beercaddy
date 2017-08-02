@@ -6,17 +6,32 @@ import time
 import serial
 
 import logging
-logging.basicConfig(filename='beercaddy.log', level=logging.DEBUG)
+logging.basicConfig(filename='../beercaddy.log', level=logging.DEBUG)
+
+
+def read_serial_message():
+    recieved_data = []
+    recieving = True
+
+    while recieving:
+        serial_data = ser.read()
+
+        if int(serial_data) == 255:
+            break
+        else:
+            recieved_data.append(serial_data)
+
+    logging.debug(''.join(recieved_data))
 
 
 if __name__ == '__main__':
-    ser = serial.Serial('/dev/ttyACM0', 9600)
+    try:
+        ser = serial.Serial('/dev/ttyACM0', 9600)
 
-    while True:
-        try:
-            serial_data = ser.read()
-            logging.debug(serial_data)
-        except Exception as e:
-            logging.warning(e)
-        time.sleep(0.1)
+        while True:
+            read_serial_message()
+            time.sleep(0.1)
 
+
+    except Exception as e:
+        logging.warning(e)
