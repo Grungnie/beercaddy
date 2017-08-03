@@ -41,7 +41,7 @@ def read_serial_message():
         logging.debug('Checksum Failed')
         return
 
-    if command == 0:
+    if command == 1:
         logging.info('Log Message - ' + string_message)
     else:
         logging.debug('Command Not Found')
