@@ -16,8 +16,8 @@ def read_serial_message():
     byte = ser.read()
 
     if byte == b'\x3A':
-        length = int.from_bytes(ser.read(), byteorder='little')
-        command = int.from_bytes(ser.read(), byteorder='little')
+        length = int.from_bytes(ser.read(), byteorder='big')
+        command = int.from_bytes(ser.read(), byteorder='big')
 
         for _ in range(length):
             recieved_data.append(ser.read())
@@ -46,7 +46,6 @@ if __name__ == '__main__':
 
         while True:
             read_serial_message()
-            time.sleep(0.1)
 
     except Exception:
         logging.warning(traceback.format_exc())
