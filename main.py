@@ -66,7 +66,7 @@ def read_serial_message():
     string_message = ''.join([x.decode('ascii') for x in recieved_data])
     logging.debug('Message: {}'.format(string_message))
 
-    calculated_checksum = calcCheckSum(':' + chr(command) + chr(length) + string_message)
+    calculated_checksum = calcCheckSum(':' + chr(length) + chr(command) + string_message)
     logging.debug('Calculated Checksum: {}'.format(calculated_checksum))
 
     if checksum != calculated_checksum:
