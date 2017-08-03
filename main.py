@@ -12,13 +12,12 @@ logging.basicConfig(filename='../beercaddy.log', level=logging.DEBUG)
 
 def read_serial_message():
     recieved_data = []
-    error = False
 
     byte = ser.read()
 
     if byte == b'\x3A':
-        length = int(ser.read())
-        command = int(ser.read())
+        length = int.from_bytes(ser.read(), byteorder='little')
+        command = int.from_bytes(ser.read(), byteorder='little')
 
         for _ in range(length):
             recieved_data.append(ser.read())
