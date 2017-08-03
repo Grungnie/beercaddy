@@ -16,31 +16,33 @@ def read_serial_message():
     byte = ser.read()
 
     if byte == b'\x3A':
-        length = int.from_bytes(ser.read(), byteorder='big')
-        command = int.from_bytes(ser.read(), byteorder='big')
-
+        length = int.from_bytes(ser.read(), byteorder='little')
         logging.debug('Message Length: {}'.format(length))
+
+        command = int.from_bytes(ser.read(), byteorder='little')
         logging.debug('Message Command: {}'.format(command))
 
         for _ in range(length):
             recieved_data.append(ser.read())
 
         checksum = ser.read()
+        logging.debug('Message Checksum: {}'.format(int.from_bytes(checksum, byteorder='little')))
 
     else:
-        logging.debug('Received unexpected character - {}'.format(int.from_bytes(byte, byteorder='big')))
+        logging.debug('Received unexpected character - {}'.format(int.from_bytes(byte, byteorder='little')))
         return
 
     string_message = ''.join([x.decode('ascii') for x in recieved_data])
+    logging.debug('Message: {}'.format(string_message))
 
     if checksum != b'\x01':
-        logging.debug('Checksum Failed - {} - {}'.format(command + string_message, checksum.decode('ascii')))
+        logging.debug('Checksum Failed')
         return
 
     if command == 0:
-        logging.debug('Log Message - ' + string_message)
+        logging.info('Log Message - ' + string_message)
     else:
-        logging.debug('Command Not Found - ' + string_message)
+        logging.debug('Command Not Found')
 
 
 if __name__ == '__main__':
