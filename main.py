@@ -7,7 +7,7 @@ import serial
 import traceback
 
 import logging
-logging.basicConfig(filename='../beercaddy.log', level=logging.INFO)
+logging.basicConfig(filename='../beercaddy.log', level=logging.DEBUG)
 
 import binascii
 
