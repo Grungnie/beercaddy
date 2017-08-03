@@ -24,6 +24,7 @@ def read_serial_message():
 
         for _ in range(length):
             recieved_data.append(ser.read())
+        logging.debug('Raw Message {}'.format(recieved_data))
 
         checksum = ser.read()
         logging.debug('Message Checksum: {}'.format(int.from_bytes(checksum, byteorder='little')))
