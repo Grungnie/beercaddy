@@ -4,6 +4,7 @@ import requests
 from robot import Robot
 import time
 import serial
+import traceback
 
 import logging
 logging.basicConfig(filename='../beercaddy.log', level=logging.DEBUG)
@@ -48,6 +49,5 @@ if __name__ == '__main__':
             read_serial_message()
             time.sleep(0.1)
 
-    except Exception as e:
-        print(e)
-        logging.warning(e)
+    except Exception:
+        logging.warning(traceback.format_exc())
