@@ -36,6 +36,7 @@ def AddToCRC(b, crc):
 def Str2ByteArray(msg):
     b = bytearray()
     b.extend(map(ord, msg))
+    logging.debug('ByteArray: {}'.format(b))
     return b
 
 
@@ -56,7 +57,7 @@ def read_serial_message():
 
         logging.debug('Message Length: {}'.format(length))
         logging.debug('Message Command: {}'.format(command))
-        logging.debug('Raw Message {}'.format(b''.join(recieved_data)))
+        logging.debug('Raw Message {}'.format(recieved_data))
         logging.debug('Message Checksum: {}'.format(int.from_bytes(checksum, byteorder='little')))
 
     else:
@@ -67,7 +68,6 @@ def read_serial_message():
     logging.debug('Message: {}'.format(string_message))
 
     checksum_string = ':' + chr(length) + chr(command) + string_message
-    logging.debug('Checksum String: {}'.format(checksum_string))
 
     calculated_checksum = calcCheckSum(checksum_string)
     logging.debug('Calculated Checksum: {}'.format(calculated_checksum))
