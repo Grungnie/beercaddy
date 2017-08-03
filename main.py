@@ -75,6 +75,7 @@ def read_serial_message():
     calculated_checksum = calcCheckSum(checksum_string)
     logging.debug('Calculated Checksum: {}'.format(calculated_checksum))
 
+    logging.debug('{}{}'.format(type(checksum), type(calculated_checksum)))
     if int(checksum) != int(calculated_checksum):
         logging.debug('Checksum Failed')
         return
