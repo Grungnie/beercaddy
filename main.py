@@ -7,7 +7,7 @@ import serial
 import traceback
 
 import logging
-logging.basicConfig(filename='../beercaddy.log', level=logging.DEBUG)
+logging.basicConfig(filename='../beercaddy.log', level=logging.INFO)
 
 
 def read_serial_message():
