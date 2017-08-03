@@ -7,7 +7,36 @@ import serial
 import traceback
 
 import logging
-logging.basicConfig(filename='../beercaddy.log', level=logging.INFO)
+logging.basicConfig(filename='../beercaddy.log', level=logging.DEBUG)
+
+import binascii
+
+
+def calcCheckSum(incoming):
+    msgByte = hexStr2Byte(incoming)
+    check = 0
+    for i in msgByte:
+        check = AddToCRC(i, check)
+    return check
+
+
+def AddToCRC(b, crc):
+    b2 = b
+    if (b < 0):
+        b2 = b + 256
+    for i in range(8):
+        odd = ((b2^crc) & 1) == 1
+        crc >>= 1
+        b2 >>= 1
+        if (odd):
+            crc ^= 0x8C # this means crc ^= 140
+    return crc
+
+
+def hexStr2Byte(msg):
+    hex_data = msg.decode("hex")
+    msg = bytearray(hex_data)
+    return msg
 
 
 def read_serial_message():
@@ -17,8 +46,10 @@ def read_serial_message():
     byte = ser.read()
 
     if byte == b'\x3A':
-        length = int.from_bytes(ser.read(), byteorder='little')
-        command = int.from_bytes(ser.read(), byteorder='little')
+        raw_length = ser.read()
+        length = int.from_bytes(raw_length, byteorder='little')
+        raw_command = ser.read()
+        command = int.from_bytes(raw_command, byteorder='little')
 
         for _ in range(length):
             recieved_data.append(ser.read())
@@ -37,7 +68,10 @@ def read_serial_message():
     string_message = ''.join([x.decode('ascii') for x in recieved_data])
     logging.debug('Message: {}'.format(string_message))
 
-    if checksum != b'\x01':
+    calculated_checksum = calcCheckSum(b''.join([byte] + [raw_length] + [raw_command] + [x for x in recieved_data]))
+    logging.debug('Calculated Checksum: {}'.format(calculated_checksum))
+
+    if checksum != calculated_checksum:
         logging.debug('Checksum Failed')
         return
 

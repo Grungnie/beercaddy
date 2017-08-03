@@ -11,6 +11,23 @@ void setup() {
   Serial.begin(9600);
 }
 
+//CRC-8 - based on the CRC8 formulas by Dallas/Maxim
+//code released under the therms of the GNU GPL 3.0 license
+byte CRC8(const byte *data, byte len) {
+  byte crc = 0x00;
+  while (len--) {
+    byte extract = *data++;
+    for (byte tempI = 8; tempI; tempI--) {
+      byte sum = (crc ^ extract) & 0x01;
+      crc >>= 1;
+      if (sum) {
+        crc ^= 0x8C;
+      }
+      extract >>= 1;
+    }
+  }
+  return crc;
+}
 
 void send_log(String message) {
   // Set start bit
@@ -27,7 +44,10 @@ void send_log(String message) {
   send_message.concat(message);
 
   // Add and calculate checksum
-  send_message.concat(char(0x01));
+  byte byteBuf[send_length+5];
+  send_message.getBytes(byteBuf, send_length+4);
+  byte checksum = CRC8(byteBuf, send_length+4);
+  send_message.concat(char(checksum));
 
   char charBuf[send_length+5];
   send_message.toCharArray(charBuf, send_length+5);
