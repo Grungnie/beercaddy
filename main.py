@@ -54,8 +54,8 @@ def read_serial_message():
 
         checksum = ser.read()
 
-        logging.debug('Message Command: {}'.format(command))
         logging.debug('Message Length: {}'.format(length))
+        logging.debug('Message Command: {}'.format(command))
         logging.debug('Raw Message {}'.format(recieved_data))
         logging.debug('Message Checksum: {}'.format(int.from_bytes(checksum, byteorder='little')))
 
@@ -64,9 +64,12 @@ def read_serial_message():
         return
 
     string_message = ''.join([x.decode('ascii') for x in recieved_data])
-    logging.debug('Message: {}'.format(string_message))
+    logging.debug('Message: {}'.format(b''.join(string_message)))
 
-    calculated_checksum = calcCheckSum(':' + chr(length) + chr(command) + string_message)
+    checksum_string = ':' + chr(length) + chr(command) + string_message
+    logging.debug('Checksum String: {}'.format(checksum_string))
+
+    calculated_checksum = calcCheckSum(checksum_string)
     logging.debug('Calculated Checksum: {}'.format(calculated_checksum))
 
     if checksum != calculated_checksum:
