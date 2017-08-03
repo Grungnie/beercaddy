@@ -17,16 +17,16 @@ def read_serial_message():
 
     if byte == b'\x3A':
         length = int.from_bytes(ser.read(), byteorder='little')
-        logging.debug('Message Length: {}'.format(length))
-
         command = int.from_bytes(ser.read(), byteorder='little')
-        logging.debug('Message Command: {}'.format(command))
 
         for _ in range(length):
             recieved_data.append(ser.read())
-        logging.debug('Raw Message {}'.format(recieved_data))
 
         checksum = ser.read()
+
+        logging.debug('Message Command: {}'.format(command))
+        logging.debug('Message Length: {}'.format(length))
+        logging.debug('Raw Message {}'.format(recieved_data))
         logging.debug('Message Checksum: {}'.format(int.from_bytes(checksum, byteorder='little')))
 
     else:
