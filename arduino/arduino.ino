@@ -13,16 +13,24 @@ void setup() {
 
 
 void send_log(String message) {
-  char end_stop = char(255);
-  
-  String send_message = message;
-  send_message.concat(char(1));
-  send_message.concat(end_stop);
+  // Set start bit
+  String send_message = ":";
 
-  int send_length = send_message.length()+1;
+  // Set the message size
+  int send_length = message.length();
+  send_message.concat(char(send_length));
+
+  // Set the message command
+  send_message.concat(char(1));
+
+  // Add the message
+  send_message.concat(message);
+
+  // Add and calculate checksum
+  send_message.concat(char(0x01));
 
   char charBuf[send_length];
-  send_message.toCharArray(charBuf, send_length);
+  send_message.toCharArray(charBuf, send_length+5);
   Serial.write(charBuf);
 }
 

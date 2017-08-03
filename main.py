@@ -11,26 +11,33 @@ logging.basicConfig(filename='../beercaddy.log', level=logging.DEBUG)
 
 def read_serial_message():
     recieved_data = []
-    recieving = True
     error = False
 
-    while recieving:
-        serial_data = ser.read()
+    byte = ser.read()
 
-        if len(recieved_data) > 255:
-            logging.debug('255 Chars received - ' + ''.join([x.decode('ascii') for x in recieved_data[1:]]))
-            error = True
-            break
+    if byte == b'\x3A':
+        length = int(ser.read())
+        command = int(ser.read())
 
-        if bytes(serial_data) == b'\xff':
-            break
-        else:
-            recieved_data.append(serial_data)
+        for _ in range(length):
+            recieved_data.append(ser.read())
 
-    if recieved_data[-1] == b'\x01' and not error:
-        logging.debug(''.join([x.decode('ascii') for x in recieved_data[:-1]]))
+        checksum = ser.read()
+
     else:
-        logging.debug('No command found - ' + ''.join([x.decode('ascii') for x in recieved_data[:-1]]))
+        logging.debug('Received unexpected character - {}'.format(byte.decode('ascii')))
+        return
+
+    string_message = ''.join([x.decode('ascii') for x in recieved_data])
+
+    if checksum != b'\x01':
+        logging.debug('Checksum Failed - {} - {}'.format(chr(command) + string_message, checksum.decode('ascii')))
+        return
+
+    if command == 0:
+        logging.debug('Log Message - ' + string_message)
+    else:
+        logging.debug('Command Not Found - ' + string_message)
 
 
 if __name__ == '__main__':
