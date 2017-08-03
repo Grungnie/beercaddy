@@ -28,7 +28,7 @@ def read_serial_message():
             recieved_data.append(serial_data)
 
     if recieved_data[-1] == b'\x01' and not error:
-        logging.debug(''.join([x.decode('ascii') for x in recieved_data[-1:]]))
+        logging.debug(''.join([x.decode('ascii') for x in recieved_data[:-1]]))
     else:
         logging.debug('No command found - ' + ''.join([x.decode('ascii') for x in recieved_data[:-1]]))
 
@@ -40,7 +40,6 @@ if __name__ == '__main__':
         while True:
             read_serial_message()
             time.sleep(0.1)
-
 
     except Exception as e:
         print(e)
