@@ -13,7 +13,7 @@ import binascii
 
 
 def calcCheckSum(incoming):
-    msgByte = hexStr2Byte(incoming)
+    msgByte = Str2ByteArray(incoming)
     check = 0
     for i in msgByte:
         check = AddToCRC(i, check)
@@ -33,10 +33,10 @@ def AddToCRC(b, crc):
     return crc
 
 
-def hexStr2Byte(msg):
-    hex_data = msg.decode("hex")
-    msg = bytearray(hex_data)
-    return msg
+def Str2ByteArray(msg):
+    b = bytearray()
+    b.extend(map(ord, msg))
+    return b
 
 
 def read_serial_message():
@@ -46,10 +46,8 @@ def read_serial_message():
     byte = ser.read()
 
     if byte == b'\x3A':
-        raw_length = ser.read()
-        length = int.from_bytes(raw_length, byteorder='little')
-        raw_command = ser.read()
-        command = int.from_bytes(raw_command, byteorder='little')
+        length = int.from_bytes(ser.read(), byteorder='little')
+        command = int.from_bytes(ser.read(), byteorder='little')
 
         for _ in range(length):
             recieved_data.append(ser.read())
@@ -68,7 +66,7 @@ def read_serial_message():
     string_message = ''.join([x.decode('ascii') for x in recieved_data])
     logging.debug('Message: {}'.format(string_message))
 
-    calculated_checksum = calcCheckSum(b''.join([byte] + [raw_length] + [raw_command] + [x for x in recieved_data]))
+    calculated_checksum = calcCheckSum(':' + chr(command) + chr(length) + string_message)
     logging.debug('Calculated Checksum: {}'.format(calculated_checksum))
 
     if checksum != calculated_checksum:
