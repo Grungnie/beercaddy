@@ -64,11 +64,14 @@ def read_serial_message():
         logging.debug('Received unexpected character - {}'.format(int.from_bytes(byte, byteorder='little')))
         return
 
-    string_message = ''.join([x.decode('ascii') for x in recieved_data])
-    logging.debug('Message: {}'.format(string_message))
+    try:
+        string_message = ''.join([x.decode('ascii') for x in recieved_data])
+        logging.debug('Message: {}'.format(string_message))
+    except UnicodeDecodeError:
+        logging.debug('Failed to decode message, UnicodeDecodeError')
+        return
 
     checksum_string = ':' + chr(length) + chr(command) + string_message
-
     calculated_checksum = calcCheckSum(checksum_string)
     logging.debug('Calculated Checksum: {}'.format(calculated_checksum))
 
