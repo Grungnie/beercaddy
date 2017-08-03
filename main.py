@@ -4,7 +4,7 @@ import traceback
 from arduinoserial import ArduinoSerial
 
 import logging
-logging.basicConfig(filename='../beercaddy.log', level=logging.INFO)
+logging.basicConfig(filename='../beercaddy.log', level=logging.DEBUG)
 
 if __name__ == '__main__':
     try:
