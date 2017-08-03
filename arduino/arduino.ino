@@ -29,7 +29,7 @@ void send_log(String message) {
   // Add and calculate checksum
   send_message.concat(char(0x01));
 
-  char charBuf[send_length];
+  char charBuf[send_length+5];
   send_message.toCharArray(charBuf, send_length+5);
   Serial.write(charBuf);
 }

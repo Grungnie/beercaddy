@@ -13,6 +13,7 @@ logging.basicConfig(filename='../beercaddy.log', level=logging.DEBUG)
 def read_serial_message():
     recieved_data = []
 
+    logging.debug('Waiting for message')
     byte = ser.read()
 
     if byte == b'\x3A':
