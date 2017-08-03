@@ -1,7 +1,7 @@
 import serial
 
 import logging
-logging.basicConfig(filename='../beercaddy.log', level=logging.INFO)
+logging.getLogger()
 
 
 class ArduinoSerial(object):
