@@ -44,8 +44,8 @@ void send_log(String message) {
   send_message.concat(message);
 
   // Add and calculate checksum
-  byte byteBuf[send_length+3];
-  send_message.getBytes(byteBuf, send_length+3);
+  byte byteBuf[send_length+4];
+  send_message.getBytes(byteBuf, send_length+4);
   byte checksum = CRC8(byteBuf, send_length+3);
   send_message.concat(char(checksum));
 
