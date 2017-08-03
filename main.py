@@ -53,12 +53,12 @@ def read_serial_message():
         for _ in range(length):
             recieved_data.append(ser.read())
 
-        checksum = ser.read()
+        checksum = int.from_bytes(ser.read(), byteorder='little')
 
         logging.debug('Message Length: {}'.format(length))
         logging.debug('Message Command: {}'.format(command))
         logging.debug('Raw Message {}'.format(recieved_data))
-        logging.debug('Message Checksum: {}'.format(int.from_bytes(checksum, byteorder='little')))
+        logging.debug('Message Checksum: {}'.format(checksum))
 
     else:
         logging.debug('Received unexpected character - {}'.format(int.from_bytes(byte, byteorder='little')))
@@ -75,8 +75,7 @@ def read_serial_message():
     calculated_checksum = calcCheckSum(checksum_string)
     logging.debug('Calculated Checksum: {}'.format(calculated_checksum))
 
-    logging.debug('{}{}'.format(type(checksum), type(calculated_checksum)))
-    if int(checksum) != int(calculated_checksum):
+    if checksum != calculated_checksum:
         logging.debug('Checksum Failed')
         return
 
