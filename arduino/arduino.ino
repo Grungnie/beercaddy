@@ -5,6 +5,8 @@
   This example code is in the public domain.
  */
 
+int counter;
+
 // the setup routine runs once when you press reset:
 void setup() {                
   // initialize the digital pin as an output.
@@ -14,8 +16,12 @@ void setup() {
 
 // the loop routine runs over and over again forever:
 void loop() {
-  py_log("Hello Matthew");
+  String message = "Hellow Matthew x" + String(counter);
+  
+  py_log(message);
   delay(1000);
+
+  counter += 1;
 }
 
 
