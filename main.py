@@ -2,10 +2,10 @@ __author__ = 'Matthew'
 
 import traceback
 from arduinoserial import ArduinoSerial
-from time import time
+from time import time, sleep
 
 import logging
-logging.basicConfig(filename='../beercaddy.log', level=logging.DEBUG)
+logging.basicConfig(filename='../beercaddy.log', level=logging.INFO)
 
 if __name__ == '__main__':
     try:
@@ -17,6 +17,8 @@ if __name__ == '__main__':
                 ser.read_serial_message()
 
             ser.send_serial_message('Hey')
+
+            sleep(5)
 
     except Exception:
         logging.warning(traceback.format_exc())
