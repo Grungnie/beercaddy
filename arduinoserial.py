@@ -37,7 +37,7 @@ class ArduinoSerial(object):
         return b
 
     def send_serial_message(self, message):
-        self.ser.write(message)
+        self.ser.write(bytearray(message))
 
     def read_serial_message(self):
         recieved_data = []
