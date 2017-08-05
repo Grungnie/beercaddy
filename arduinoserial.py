@@ -45,6 +45,9 @@ class ArduinoSerial(object):
         logging.debug('Waiting for message')
         byte = self.ser.read()
 
+        if byte == -1:
+            return
+
         if byte == b'\x3A':
             length = int.from_bytes(self.ser.read(), byteorder='little')
             command = int.from_bytes(self.ser.read(), byteorder='little')
