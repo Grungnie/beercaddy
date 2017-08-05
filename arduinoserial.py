@@ -6,10 +6,10 @@ logging.getLogger()
 
 class ArduinoSerial(object):
     def __init__(self):
-        self.ser = serial.Serial('/dev/ttyACM0', 9600)
+        self.ser = serial.Serial('/dev/ttyACM0', 9600, timeout=0.1)
 
     @staticmethod
-    def calcCheckSum(incoming):
+    def _calcCheckSum(incoming):
         msgByte = ArduinoSerial._Str2ByteArray(incoming)
         check = 0
         for i in msgByte:
@@ -35,6 +35,9 @@ class ArduinoSerial(object):
         b.extend(map(ord, msg))
         logging.debug('ByteArray: {}'.format(b))
         return b
+
+    def send_serial_message(self, message):
+        self.ser.send(message)
 
     def read_serial_message(self):
         recieved_data = []
@@ -68,7 +71,7 @@ class ArduinoSerial(object):
             return
 
         checksum_string = ':' + chr(length) + chr(command) + string_message
-        calculated_checksum = self.calcCheckSum(checksum_string)
+        calculated_checksum = self._calcCheckSum(checksum_string)
         logging.debug('Calculated Checksum: {}'.format(calculated_checksum))
 
         if checksum != calculated_checksum:
