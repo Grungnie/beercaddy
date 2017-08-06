@@ -42,8 +42,6 @@ class ArduinoSerial(object):
     def read_serial_message(self):
         recieved_data = []
 
-        logging.debug('Waiting for message')
-
         if not self.ser.in_waiting:
             return None
         else:

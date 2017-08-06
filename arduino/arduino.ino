@@ -16,12 +16,12 @@ void setup() {
 
 // the loop routine runs over and over again forever:
 void loop() {
-  String message = "Hellow Matthew x" + String(counter);
-  py_log(message);
-  delay(1000);
-  counter += 1;
+//  String message = "Hellow Matthew x" + String(counter);
+//  py_log(message);
+//  delay(1000);
+//  counter += 1;
 
-  //recieve_data();
+  recieve_data();
 }
 
 
@@ -57,7 +57,9 @@ void send_data(String data, int command) {
 
 void recieve_data() {
   int incomingByte = Serial.read();
-  py_log(String(incomingByte));
+  if(incommingByte != -1) {
+    py_log(String(incomingByte));
+  }
 }
 
 
