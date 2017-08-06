@@ -45,6 +45,9 @@ class ArduinoSerial(object):
         logging.debug('Waiting for message')
         byte = self.ser.read()
 
+        logging.debug('byte type: {}'.format(type(byte)))
+        logging.debug('byte: {}'.format(byte))
+
         if byte == -1:
             return
 
