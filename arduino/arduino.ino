@@ -56,9 +56,26 @@ void send_data(String data, int command) {
 }
 
 void recieve_data() {
+  int msg_length;
+  int checksum;
+  int command;
+  
   int incomingByte = Serial.read();
   if(incomingByte != -1) {
-    py_log(String(incomingByte));
+    if(incomingByte == 58) {
+      msg_length = Serial.read();
+      command = Serial.read();
+
+      char message[msg_length];
+
+      for(int i=0; i<msg_length; i++) {
+        message[i] = Serial.read();
+      }
+      py_log(String(message));
+
+      checksum = Serial.read();
+    }
+    
   }
 }
 
