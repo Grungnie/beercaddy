@@ -57,7 +57,7 @@ void send_data(String data, int command) {
 
 void recieve_data() {
   int incomingByte = Serial.read();
-  if(incommingByte != -1) {
+  if(incomingByte != -1) {
     py_log(String(incomingByte));
   }
 }
