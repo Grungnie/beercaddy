@@ -45,7 +45,9 @@ class ArduinoSerial(object):
         logging.debug('Waiting for message')
 
         if not self.ser.in_waiting:
-            return
+            return None
+        else:
+            logging.debug('Receiving data')
 
         byte = self.ser.read()
 
