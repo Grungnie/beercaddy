@@ -65,16 +65,23 @@ void recieve_data() {
   if(incomingByte != -1) {
     if(incomingByte == 58) {
       py_log("Parsing message");
+      
       msg_length = Serial.read();
       command = Serial.read();
 
-      char message[msg_length];
+      py_log("Length: " + String(msg_length));
+      py_log("Command: " + String(command));
 
+      char message[msg_length];
       for(int i=0; i<msg_length; i++) {
         message[i] = Serial.read();
       }
 
+      py_log("Message Parsed");
+
       checksum = Serial.read();
+
+      py_log("checksum: " + String(checksum));
       
       py_log(String(message));
     } else {
