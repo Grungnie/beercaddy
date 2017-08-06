@@ -9,8 +9,7 @@ class ArduinoSerial(object):
         self.ser = serial.Serial('/dev/ttyACM0', 9600, timeout=0.1)
 
     @staticmethod
-    def _calcCheckSum(incoming):
-        msgByte = ArduinoSerial._Str2ByteArray(incoming)
+    def _calcCheckSum(msgByte):
         check = 0
         for i in msgByte:
             check = ArduinoSerial._AddToCRC(i, check)
@@ -36,8 +35,11 @@ class ArduinoSerial(object):
         logging.debug('ByteArray: {}'.format(b))
         return b
 
-    def send_serial_message(self, message):
-        self.ser.write(bytearray(message, encoding='ascii'))
+    def send_serial_message(self, message, command):
+        send_array = bytearray([58, len(message), command]) + bytearray(message, encoding='ascii')
+        checksum = ArduinoSerial._calcCheckSum(send_array)
+        send_array.append(checksum)
+        self.ser.write(send_array)
 
     def read_serial_message(self):
         recieved_data = []
@@ -74,8 +76,8 @@ class ArduinoSerial(object):
             logging.debug('Failed to decode message, UnicodeDecodeError')
             return
 
-        checksum_string = ':' + chr(length) + chr(command) + string_message
-        calculated_checksum = self._calcCheckSum(checksum_string)
+        message_bytearray = bytearray([58, length, command]) + bytearray(string_message, encoding='ascii')
+        calculated_checksum = self._calcCheckSum(message_bytearray)
         logging.debug('Calculated Checksum: {}'.format(calculated_checksum))
 
         if checksum != calculated_checksum:
