@@ -60,26 +60,26 @@ void recieve_data() {
   int checksum;
   int command;
   
-  int incomingByte = Serial.read();
+  int incomingByte = get_next_byte();
   
   if(incomingByte != -1) {
     if(incomingByte == 58) {
       py_log("Parsing message");
       
-      msg_length = Serial.read();
-      command = Serial.read();
+      msg_length = get_next_byte();
+      command = get_next_byte();
 
       py_log("Length: " + String(msg_length));
       py_log("Command: " + String(command));
 
       char message[msg_length];
       for(int i=0; i<msg_length; i++) {
-        message[i] = Serial.read();
+        message[i] = get_next_byte();
       }
 
       py_log("Message Parsed");
 
-      checksum = Serial.read();
+      checksum = get_next_byte();
 
       py_log("checksum: " + String(checksum));
       
@@ -88,6 +88,13 @@ void recieve_data() {
       py_log("The incomingByte was wrong");
     }
     
+  }
+}
+
+int get_next_byte() {
+  int incomingByte = Serial.read();
+  if(incomingByte != -1) {
+    return incomingByte;
   }
 }
 
