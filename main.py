@@ -16,7 +16,7 @@ if __name__ == '__main__':
             while time() < now+5:
                 ser.read_serial_message()
 
-            ser.send_serial_message('Hey')
+            ser.send_serial_message('Hey', 1)
 
     except Exception:
         logging.warning(traceback.format_exc())
