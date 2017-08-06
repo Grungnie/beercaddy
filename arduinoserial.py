@@ -43,13 +43,11 @@ class ArduinoSerial(object):
         recieved_data = []
 
         logging.debug('Waiting for message')
-        byte = self.ser.read()
 
-        logging.debug('byte type: {}'.format(type(byte)))
-        logging.debug('byte: {}'.format(byte))
-
-        if byte == -1:
+        if not self.ser.in_waiting:
             return
+
+        byte = self.ser.read()
 
         if byte == b'\x3A':
             length = int.from_bytes(self.ser.read(), byteorder='little')
