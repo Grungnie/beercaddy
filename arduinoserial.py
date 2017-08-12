@@ -6,7 +6,7 @@ logging.getLogger()
 
 class ArduinoSerial(object):
     def __init__(self):
-        self.ser = serial.Serial('/dev/ttyACM0', 9600, timeout=0.1)
+        self.ser = serial.Serial('/dev/ttyACM0', 115200, timeout=0.01)
 
     @staticmethod
     def _calcCheckSum(msgByte):

@@ -12,20 +12,24 @@ if __name__ == '__main__':
         ser = ArduinoSerial()
 
         last_command = 0
+        last_motor = 0
         current_motor = 2
 
         while True:
             now = time()
             ser.read_serial_message()
 
-            #ser.send_serial_message('Hey', 1)
+            if last_motor < now - 1:
+                last_motor = now
 
-            if last_command < now - 1:
-                last_command = now
-                ser.send_serial_message(bytearray([0]), current_motor)
                 current_motor += 1
                 if current_motor > 5:
                     current_motor = 2
+
+            if last_command < now - 0.1:
+                last_command = now
+
+                ser.send_serial_message(bytearray([0]), current_motor)
                 ser.send_serial_message(bytearray([255]), current_motor)
 
     except Exception:
