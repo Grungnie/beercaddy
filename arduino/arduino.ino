@@ -11,6 +11,11 @@ int motor1Pin2 = 4; // pin 7 on L293D
 int motor2Pin1 = 6;
 int motor2Pin2 = 5;
 
+int currentMotor1Pin1 = 0; // pin 2 on L293D
+int currentMotor1Pin2 = 0; // pin 7 on L293D
+int currentMotor2Pin1 = 0;
+int currentMotor2Pin2 = 0;
+
 
 // the setup routine runs once when you press reset:
 void setup() {                
@@ -100,22 +105,34 @@ void recieve_data() {
 void process_command(int command, char* message) {
   // Right Forward
   if (command == 2) {
-    analogWrite(motor1Pin1, int(message[0]));
+    if (currentMotor1Pin1 != int(message[0])) {
+      analogWrite(motor1Pin1, int(message[0]));
+      currentMotor1Pin1 = int(message[0]);
+    }
   }
 
   // Left Forward
   if (command == 3) {
-    analogWrite(motor2Pin1, int(message[0]));
+    if (currentMotor2Pin1 != int(message[0])) {
+      analogWrite(motor2Pin1, int(message[0]));
+      currentMotor2Pin1 = int(message[0]);
+    }
   }
 
   // Right Backward
   if (command == 4) {
-    analogWrite(motor1Pin2, int(message[0]));
+    if (currentMotor1Pin2 != int(message[0])) {
+      analogWrite(motor1Pin2, int(message[0]));
+      currentMotor1Pin2 = int(message[0]);
+    }
   }
 
   // Left Backward
   if (command == 5) {
-    analogWrite(motor2Pin2, int(message[0]));
+    if (currentMotor2Pin2 != int(message[0])) {
+      analogWrite(motor2Pin2, int(message[0]));
+      currentMotor2Pin2 = int(message[0]);
+    }
   }
 }
 
