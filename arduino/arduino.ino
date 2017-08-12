@@ -16,6 +16,8 @@ int currentMotor1Pin2 = 0; // pin 7 on L293D
 int currentMotor2Pin1 = 0;
 int currentMotor2Pin2 = 0;
 
+int led_status = 0;
+
 
 // the setup routine runs once when you press reset:
 void setup() {                
@@ -140,6 +142,14 @@ int get_next_byte() {
   while(true) {
     int incomingByte = Serial.read();
     if(incomingByte != -1) {
+      if (led_status == 0) {
+        digitalWrite(LED_BUILTIN, 1);
+        led_status = 1;
+      } else {
+        digitalWrite(LED_BUILTIN, 0);
+        led_status = 0;
+      }
+      
       return incomingByte;
     }
   }
