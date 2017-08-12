@@ -35,6 +35,15 @@ if __name__ == '__main__':
                 ser.send_serial_message(bytearray([0]), last_motor)
                 ser.send_serial_message(bytearray([255]), current_motor)
 
+                ser.send_serial_message(bytearray([0]), last_motor)
+                ser.send_serial_message(bytearray([255]), current_motor)
+
+                ser.send_serial_message(bytearray([0]), last_motor)
+                ser.send_serial_message(bytearray([255]), current_motor)
+
+                ser.send_serial_message(bytearray([0]), last_motor)
+                ser.send_serial_message(bytearray([255]), current_motor)
+
 
     except Exception:
         logging.warning(traceback.format_exc())
