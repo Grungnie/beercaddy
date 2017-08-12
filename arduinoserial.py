@@ -36,7 +36,10 @@ class ArduinoSerial(object):
         return b
 
     def send_serial_message(self, message, command):
-        send_array = bytearray([58, len(message), command]) + bytearray(message, encoding='ascii')
+        if type(message) is str:
+            send_array = bytearray([58, len(message), command]) + bytearray(message, encoding='ascii')
+        else:
+            send_array = bytearray([58, len(message), command]) + message
         checksum = ArduinoSerial._calcCheckSum(send_array)
         send_array.append(checksum)
         self.ser.write(send_array)

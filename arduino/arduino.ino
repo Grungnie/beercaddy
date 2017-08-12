@@ -6,11 +6,22 @@
  */
 
 int counter;
+int motor1Pin1 = 3; // pin 2 on L293D
+int motor1Pin2 = 4; // pin 7 on L293D
+int motor2Pin1 = 6;
+int motor2Pin2 = 5;
+
 
 // the setup routine runs once when you press reset:
 void setup() {                
   // initialize the digital pin as an output.
   Serial.begin(9600);
+
+  // set all the other pins you're using as outputs:
+  pinMode(motor1Pin1, OUTPUT);
+  pinMode(motor1Pin2, OUTPUT);
+  pinMode(motor2Pin1, OUTPUT);
+  pinMode(motor2Pin2, OUTPUT);
 }
 
 
@@ -81,10 +92,35 @@ void recieve_data() {
     checksum = get_next_byte();
 
     py_log("checksum: " + String(checksum));
-    
+
     py_log(String(message));
+
+    process_command(command, message);
   } else {
     py_log("The incomingByte was wrong");
+  }
+  
+}
+
+void process_command(int command, char* message) {
+  // Right Forward
+  if (command == 2) {
+    analogWrite(motor1Pin1, int(message[0]));
+  }
+
+  // Left Forward
+  if (command == 3) {
+    analogWrite(motor2Pin1, int(message[0]));
+  }
+
+  // Right Backward
+  if (command == 4) {
+    analogWrite(motor1Pin2, int(message[0]));
+  }
+
+  // Left Backward
+  if (command == 5) {
+    analogWrite(motor2Pin2, int(message[0]));
   }
 }
 
