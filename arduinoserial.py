@@ -1,12 +1,14 @@
 import serial
 
 import logging
+import time
 logging.getLogger()
 
 
 class ArduinoSerial(object):
     def __init__(self):
         self.ser = serial.Serial('/dev/ttyACM0', 115200, timeout=0.01)
+        time.sleep(2)
 
     @staticmethod
     def _calcCheckSum(msgByte):
