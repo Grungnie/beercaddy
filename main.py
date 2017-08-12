@@ -29,7 +29,7 @@ if __name__ == '__main__':
                 if current_motor > 5:
                     current_motor = 2
 
-            if last_command < now - 1:
+            if last_command < now - 0.1:
                 last_command = now
 
                 ser.send_serial_message(bytearray([0]), last_motor)
