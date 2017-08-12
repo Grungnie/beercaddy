@@ -11,8 +11,8 @@ if __name__ == '__main__':
     try:
         ser = ArduinoSerial()
 
-        last_command = 0
-        last_motor = 0
+        last_command = time()
+        last_motor = time()
         current_motor = 2
 
         while True:
@@ -26,7 +26,7 @@ if __name__ == '__main__':
                 if current_motor > 5:
                     current_motor = 2
 
-            if last_command < now - 0.1:
+            if last_command < now - 1:
                 last_command = now
 
                 ser.send_serial_message(bytearray([0]), current_motor)
