@@ -142,19 +142,21 @@ int get_next_byte() {
   while(true) {
     int incomingByte = Serial.read();
     if(incomingByte != -1) {
-      if (led_status == 0) {
-        digitalWrite(LED_BUILTIN, 1);
-        led_status = 1;
-      } else {
-        digitalWrite(LED_BUILTIN, 0);
-        led_status = 0;
-      }
-      
+      blind_led();
       return incomingByte;
     }
   }
 }
 
+void blind_led() {
+  if (led_status == 0) {
+    digitalWrite(LED_BUILTIN, 1);
+    led_status = 1;
+  } else {
+    digitalWrite(LED_BUILTIN, 0);
+    led_status = 0;
+  }
+}
 
 //CRC-8 - based on the CRC8 formulas by Dallas/Maxim
 //code released under the therms of the GNU GPL 3.0 license
