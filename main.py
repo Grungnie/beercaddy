@@ -14,6 +14,7 @@ if __name__ == '__main__':
         last_command = time()
         last_motor = time()
         current_motor = 2
+        last_motor = 5
 
         while True:
             now = time()
@@ -22,6 +23,8 @@ if __name__ == '__main__':
             if last_motor < now - 1:
                 last_motor = now
 
+                last_motor = current_motor
+
                 current_motor += 1
                 if current_motor > 5:
                     current_motor = 2
@@ -29,7 +32,7 @@ if __name__ == '__main__':
             if last_command < now - 1:
                 last_command = now
 
-                ser.send_serial_message(bytearray([0]), current_motor)
+                ser.send_serial_message(bytearray([0]), last_motor)
                 ser.send_serial_message(bytearray([255]), current_motor)
 
     except Exception:
