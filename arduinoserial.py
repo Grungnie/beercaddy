@@ -40,9 +40,11 @@ class ArduinoSerial(object):
             send_array = bytearray([58, len(message), command]) + bytearray(message, encoding='ascii')
         else:
             send_array = bytearray([58, len(message), command]) + message
+        logging.info('sending message')
         checksum = ArduinoSerial._calcCheckSum(send_array)
         send_array.append(checksum)
-        self.ser.write(send_array)
+        result = self.ser.write(send_array)
+        logging.info('{} bytes written'.format(result))
 
     def read_serial_message(self):
         recieved_data = []

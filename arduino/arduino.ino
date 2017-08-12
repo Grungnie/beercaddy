@@ -63,7 +63,7 @@ void send_data(String data, int command) {
 
   char charBuf[send_length+5];
   send_message.toCharArray(charBuf, send_length+5);
-  //Serial.write(charBuf);
+  Serial.write(charBuf);
 }
 
 void recieve_data() {
