@@ -12,7 +12,7 @@ if __name__ == '__main__':
         ser = ArduinoSerial()
 
         last_command = time()
-        last_motor = time()
+        last_motor_command = time()
         current_motor = 2
         last_motor = 5
 
@@ -20,8 +20,8 @@ if __name__ == '__main__':
             now = time()
             ser.read_serial_message()
 
-            if last_motor < now - 1:
-                last_motor = now
+            if last_motor_command < now - 1:
+                last_motor_command = now
 
                 last_motor = current_motor
 
